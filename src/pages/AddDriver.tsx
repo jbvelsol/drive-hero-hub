@@ -26,12 +26,6 @@ interface DriverFormData {
   cdlClass: string;
   endorsements: string;
   medicalCardNumber: string;
-  address: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  emergencyContact: string;
-  emergencyPhone: string;
   notes: string;
 }
 
@@ -47,16 +41,11 @@ const AddDriver = () => {
     cdlClass: "",
     endorsements: "",
     medicalCardNumber: "",
-    address: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    emergencyContact: "",
-    emergencyPhone: "",
     notes: "",
   });
   const [medicalCardExpiry, setMedicalCardExpiry] = useState<Date>();
   const [dqfFile, setDqfFile] = useState<File | null>(null);
+  const [fileLabel, setFileLabel] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -93,15 +82,10 @@ const AddDriver = () => {
         cdlClass: "",
         endorsements: "",
         medicalCardNumber: "",
-        address: "",
-        city: "",
-        state: "",
-        zipCode: "",
-        emergencyContact: "",
-        emergencyPhone: "",
         notes: "",
       });
       setMedicalCardExpiry(undefined);
+      setFileLabel("");
       setDqfFile(null);
     } catch (error) {
       toast({
@@ -217,7 +201,7 @@ const AddDriver = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="cdlClass">CDL Class *</Label>
+                <Label htmlFor="cdlClass">CDL Class</Label>
                 <Select onValueChange={(value) => handleInputChange("cdlClass", value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select CDL Class" />
@@ -253,17 +237,16 @@ const AddDriver = () => {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="medicalCardNumber">Medical Card Number *</Label>
+                <Label htmlFor="medicalCardNumber">Medical Card Number</Label>
                 <Input
                   id="medicalCardNumber"
                   value={formData.medicalCardNumber}
                   onChange={(e) => handleInputChange("medicalCardNumber", e.target.value)}
                   placeholder="Enter medical certificate number"
-                  required
                 />
               </div>
               <div className="space-y-2">
-                <Label>Medical Card Expiration Date *</Label>
+                <Label>Medical Card Expiration Date</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -297,82 +280,6 @@ const AddDriver = () => {
           </CardContent>
         </Card>
 
-        {/* Address */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Address Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="address">Street Address *</Label>
-              <Input
-                id="address"
-                value={formData.address}
-                onChange={(e) => handleInputChange("address", e.target.value)}
-                required
-              />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="city">City *</Label>
-                <Input
-                  id="city"
-                  value={formData.city}
-                  onChange={(e) => handleInputChange("city", e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="state">State *</Label>
-                <Input
-                  id="state"
-                  value={formData.state}
-                  onChange={(e) => handleInputChange("state", e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="zipCode">ZIP Code *</Label>
-                <Input
-                  id="zipCode"
-                  value={formData.zipCode}
-                  onChange={(e) => handleInputChange("zipCode", e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Emergency Contact */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Emergency Contact</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="emergencyContact">Contact Name *</Label>
-                <Input
-                  id="emergencyContact"
-                  value={formData.emergencyContact}
-                  onChange={(e) => handleInputChange("emergencyContact", e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="emergencyPhone">Contact Phone *</Label>
-                <Input
-                  id="emergencyPhone"
-                  type="tel"
-                  value={formData.emergencyPhone}
-                  onChange={(e) => handleInputChange("emergencyPhone", e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
 
         {/* DQF File Upload */}
         <Card>
@@ -382,7 +289,16 @@ const AddDriver = () => {
               Upload the driver's qualification file and supporting documents
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="fileLabel">File Label</Label>
+              <Input
+                id="fileLabel"
+                value={fileLabel}
+                onChange={(e) => setFileLabel(e.target.value)}
+                placeholder="Enter a name/label for this file..."
+              />
+            </div>
             <FileUpload onFileSelect={handleFileSelect} />
           </CardContent>
         </Card>
