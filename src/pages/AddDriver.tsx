@@ -156,108 +156,111 @@ const AddDriver = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="firstName">First Name *</Label>
-                <Input
-                  id="firstName"
-                  value={formData.firstName}
-                  onChange={(e) => handleInputChange("firstName", e.target.value)}
-                  required
-                />
+            <div className="flex gap-6">
+              {/* Left side - Form fields */}
+              <div className="flex-1 space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">First Name *</Label>
+                    <Input
+                      id="firstName"
+                      value={formData.firstName}
+                      onChange={(e) => handleInputChange("firstName", e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Last Name *</Label>
+                    <Input
+                      id="lastName"
+                      value={formData.lastName}
+                      onChange={(e) => handleInputChange("lastName", e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="employeeId">Employee ID *</Label>
+                    <Input
+                      id="employeeId"
+                      value={formData.employeeId}
+                      onChange={(e) => handleInputChange("employeeId", e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email Address *</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => handleInputChange("email", e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone Number *</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => handleInputChange("phone", e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Password *</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      value={formData.password}
+                      onChange={(e) => handleInputChange("password", e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="confirmPassword">Confirm Password *</Label>
+                    <Input
+                      id="confirmPassword"
+                      type="password"
+                      value={formData.confirmPassword}
+                      onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="webAccess"
+                      checked={formData.webAccess}
+                      onCheckedChange={(checked) => handleInputChange("webAccess", checked as boolean)}
+                    />
+                    <Label htmlFor="webAccess">Web Access User</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="isActive"
+                      checked={formData.isActive}
+                      onCheckedChange={(checked) => handleInputChange("isActive", checked as boolean)}
+                    />
+                    <Label htmlFor="isActive">Active User</Label>
+                  </div>
+                </div>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name *</Label>
-                <Input
-                  id="lastName"
-                  value={formData.lastName}
-                  onChange={(e) => handleInputChange("lastName", e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="employeeId">Employee ID *</Label>
-                <Input
-                  id="employeeId"
-                  value={formData.employeeId}
-                  onChange={(e) => handleInputChange("employeeId", e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number *</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange("phone", e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="password">Password *</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) => handleInputChange("password", e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password *</Label>
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  value={formData.confirmPassword}
-                  onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="webAccess"
-                  checked={formData.webAccess}
-                  onCheckedChange={(checked) => handleInputChange("webAccess", checked as boolean)}
-                />
-                <Label htmlFor="webAccess">Web Access User</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="isActive"
-                  checked={formData.isActive}
-                  onCheckedChange={(checked) => handleInputChange("isActive", checked as boolean)}
-                />
-                <Label htmlFor="isActive">Active User</Label>
-              </div>
-            </div>
 
-            {/* Profile Image Upload */}
-            <div className="space-y-2">
-              <Label>Profile Image</Label>
-              <div className="flex items-center space-x-4">
+              {/* Right side - Profile Image */}
+              <div className="flex flex-col items-center space-y-4">
+                <Label>Profile Image</Label>
                 {profileImagePreview ? (
                   <div className="relative">
                     <img
                       src={profileImagePreview}
                       alt="Profile preview"
-                      className="w-20 h-20 rounded-full object-cover border-2 border-border"
+                      className="w-24 h-24 rounded-full object-cover border-2 border-border"
                     />
                     <Button
                       type="button"
@@ -270,11 +273,11 @@ const AddDriver = () => {
                     </Button>
                   </div>
                 ) : (
-                  <div className="w-20 h-20 rounded-full bg-muted border-2 border-dashed border-border flex items-center justify-center">
+                  <div className="w-24 h-24 rounded-full bg-muted border-2 border-dashed border-border flex items-center justify-center">
                     <User className="h-8 w-8 text-muted-foreground" />
                   </div>
                 )}
-                <div className="flex-1">
+                <div className="text-center">
                   <input
                     ref={fileInputRef}
                     type="file"
@@ -285,13 +288,14 @@ const AddDriver = () => {
                   <Button
                     type="button"
                     variant="outline"
+                    size="sm"
                     onClick={() => fileInputRef.current?.click()}
                   >
                     <Upload className="h-4 w-4 mr-2" />
-                    Upload Image
+                    Upload
                   </Button>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    JPG, PNG or WEBP. Max file size 5MB.
+                  <p className="text-xs text-muted-foreground mt-1">
+                    JPG, PNG or WEBP<br />Max 5MB
                   </p>
                 </div>
               </div>
@@ -333,7 +337,7 @@ const AddDriver = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="licenseExpiry">
-                  Expiry Date {!formData.webAccess && "*"}
+                  Expiration Date {!formData.webAccess && "*"}
                 </Label>
                 <Input
                   id="licenseExpiry"
