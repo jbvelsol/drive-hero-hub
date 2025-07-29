@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Upload, X } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,7 @@ interface DriverFormData {
   password: string;
   confirmPassword: string;
   webAccess: boolean;
+  isActive: boolean;
   licenseNumber: string;
   licenseState: string;
   licenseExpiry: string;
@@ -44,6 +45,7 @@ const AddDriver = () => {
     password: "",
     confirmPassword: "",
     webAccess: false,
+    isActive: true,
     licenseNumber: "",
     licenseState: "",
     licenseExpiry: "",
@@ -54,8 +56,11 @@ const AddDriver = () => {
   });
   const [medicalCardExpiry, setMedicalCardExpiry] = useState<Date>();
   const [dqfFile, setDqfFile] = useState<File | null>(null);
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profileImagePreview, setProfileImagePreview] = useState<string>("");
   const [fileLabel, setFileLabel] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const handleInputChange = (field: keyof DriverFormData, value: string | boolean) => {
@@ -64,6 +69,26 @@ const AddDriver = () => {
 
   const handleFileSelect = (file: File) => {
     setDqfFile(file);
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfileImage(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfileImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setProfileImage(null);
+    setProfileImagePreview("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,6 +114,7 @@ const AddDriver = () => {
         password: "",
         confirmPassword: "",
         webAccess: false,
+        isActive: true,
         licenseNumber: "",
         licenseState: "",
         licenseExpiry: "",
@@ -100,6 +126,8 @@ const AddDriver = () => {
       setMedicalCardExpiry(undefined);
       setFileLabel("");
       setDqfFile(null);
+      setProfileImage(null);
+      setProfileImagePreview("");
     } catch (error) {
       toast({
         title: "Error",
@@ -201,13 +229,72 @@ const AddDriver = () => {
                 />
               </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="webAccess"
-                checked={formData.webAccess}
-                onCheckedChange={(checked) => handleInputChange("webAccess", checked as boolean)}
-              />
-              <Label htmlFor="webAccess">Web Access User</Label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="webAccess"
+                  checked={formData.webAccess}
+                  onCheckedChange={(checked) => handleInputChange("webAccess", checked as boolean)}
+                />
+                <Label htmlFor="webAccess">Web Access User</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="isActive"
+                  checked={formData.isActive}
+                  onCheckedChange={(checked) => handleInputChange("isActive", checked as boolean)}
+                />
+                <Label htmlFor="isActive">Active User</Label>
+              </div>
+            </div>
+
+            {/* Profile Image Upload */}
+            <div className="space-y-2">
+              <Label>Profile Image</Label>
+              <div className="flex items-center space-x-4">
+                {profileImagePreview ? (
+                  <div className="relative">
+                    <img
+                      src={profileImagePreview}
+                      alt="Profile preview"
+                      className="w-20 h-20 rounded-full object-cover border-2 border-border"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      className="absolute -top-2 -right-2 h-6 w-6 p-0 rounded-full"
+                      onClick={removeImage}
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="w-20 h-20 rounded-full bg-muted border-2 border-dashed border-border flex items-center justify-center">
+                    <User className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Upload className="h-4 w-4 mr-2" />
+                    Upload Image
+                  </Button>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    JPG, PNG or WEBP. Max file size 5MB.
+                  </p>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
