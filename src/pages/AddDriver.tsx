@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import FileUpload from "@/components/FileUpload";
 import { useToast } from "@/hooks/use-toast";
@@ -20,6 +21,9 @@ interface DriverFormData {
   lastName: string;
   email: string;
   phone: string;
+  password: string;
+  confirmPassword: string;
+  webAccess: boolean;
   licenseNumber: string;
   licenseState: string;
   licenseExpiry: string;
@@ -35,6 +39,9 @@ const AddDriver = () => {
     lastName: "",
     email: "",
     phone: "",
+    password: "",
+    confirmPassword: "",
+    webAccess: false,
     licenseNumber: "",
     licenseState: "",
     licenseExpiry: "",
@@ -49,7 +56,7 @@ const AddDriver = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleInputChange = (field: keyof DriverFormData, value: string) => {
+  const handleInputChange = (field: keyof DriverFormData, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -76,6 +83,9 @@ const AddDriver = () => {
         lastName: "",
         email: "",
         phone: "",
+        password: "",
+        confirmPassword: "",
+        webAccess: false,
         licenseNumber: "",
         licenseState: "",
         licenseExpiry: "",
@@ -157,6 +167,36 @@ const AddDriver = () => {
                 />
               </div>
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="password">Password *</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => handleInputChange("password", e.target.value)}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">Confirm Password *</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  value={formData.confirmPassword}
+                  onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="webAccess"
+                checked={formData.webAccess}
+                onCheckedChange={(checked) => handleInputChange("webAccess", checked as boolean)}
+              />
+              <Label htmlFor="webAccess">Web Access User</Label>
+            </div>
           </CardContent>
         </Card>
 
@@ -171,31 +211,37 @@ const AddDriver = () => {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="licenseNumber">License Number *</Label>
+                <Label htmlFor="licenseNumber">
+                  License Number {!formData.webAccess && "*"}
+                </Label>
                 <Input
                   id="licenseNumber"
                   value={formData.licenseNumber}
                   onChange={(e) => handleInputChange("licenseNumber", e.target.value)}
-                  required
+                  required={!formData.webAccess}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="licenseState">License State *</Label>
+                <Label htmlFor="licenseState">
+                  License State {!formData.webAccess && "*"}
+                </Label>
                 <Input
                   id="licenseState"
                   value={formData.licenseState}
                   onChange={(e) => handleInputChange("licenseState", e.target.value)}
-                  required
+                  required={!formData.webAccess}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="licenseExpiry">Expiry Date *</Label>
+                <Label htmlFor="licenseExpiry">
+                  Expiry Date {!formData.webAccess && "*"}
+                </Label>
                 <Input
                   id="licenseExpiry"
                   type="date"
                   value={formData.licenseExpiry}
                   onChange={(e) => handleInputChange("licenseExpiry", e.target.value)}
-                  required
+                  required={!formData.webAccess}
                 />
               </div>
             </div>
