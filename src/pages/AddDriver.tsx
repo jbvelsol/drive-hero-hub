@@ -19,6 +19,7 @@ import { Save, User } from "lucide-react";
 interface DriverFormData {
   firstName: string;
   lastName: string;
+  employeeId: string;
   email: string;
   phone: string;
   password: string;
@@ -37,6 +38,7 @@ const AddDriver = () => {
   const [formData, setFormData] = useState<DriverFormData>({
     firstName: "",
     lastName: "",
+    employeeId: "",
     email: "",
     phone: "",
     password: "",
@@ -81,6 +83,7 @@ const AddDriver = () => {
       setFormData({
         firstName: "",
         lastName: "",
+        employeeId: "",
         email: "",
         phone: "",
         password: "",
@@ -125,7 +128,7 @@ const AddDriver = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="firstName">First Name *</Label>
                 <Input
@@ -141,6 +144,15 @@ const AddDriver = () => {
                   id="lastName"
                   value={formData.lastName}
                   onChange={(e) => handleInputChange("lastName", e.target.value)}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="employeeId">Employee ID *</Label>
+                <Input
+                  id="employeeId"
+                  value={formData.employeeId}
+                  onChange={(e) => handleInputChange("employeeId", e.target.value)}
                   required
                 />
               </div>
