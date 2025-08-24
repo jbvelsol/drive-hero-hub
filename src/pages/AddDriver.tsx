@@ -159,29 +159,35 @@ const AddDriver = () => {
             {/* Profile Image */}
             <div className="flex flex-col items-center space-y-2">
               <Label className="text-sm">Profile Image</Label>
-              {profileImagePreview ? (
-                <div className="relative">
-                  <img
-                    src={profileImagePreview}
-                    alt="Profile preview"
-                    className="w-16 h-16 rounded-full object-cover border-2 border-border"
-                  />
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="sm"
-                    className="absolute -top-1 -right-1 h-5 w-5 p-0 rounded-full"
-                    onClick={removeImage}
-                  >
-                    <X className="h-2 w-2" />
-                  </Button>
-                </div>
-              ) : (
-                <div className="w-16 h-16 rounded-full bg-muted border-2 border-dashed border-border flex items-center justify-center">
-                  <User className="h-6 w-6 text-muted-foreground" />
-                </div>
-              )}
-              <div className="text-center">
+              <div 
+                className="relative cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {profileImagePreview ? (
+                  <>
+                    <img
+                      src={profileImagePreview}
+                      alt="Profile preview"
+                      className="w-16 h-16 rounded-full object-cover border-2 border-border"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      className="absolute -top-1 -right-1 h-5 w-5 p-0 rounded-full"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeImage();
+                      }}
+                    >
+                      <X className="h-2 w-2" />
+                    </Button>
+                  </>
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-muted border-2 border-dashed border-border flex items-center justify-center hover:bg-muted/80 transition-colors">
+                    <User className="h-6 w-6 text-muted-foreground" />
+                  </div>
+                )}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -189,19 +195,6 @@ const AddDriver = () => {
                   onChange={handleImageUpload}
                   className="hidden"
                 />
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="text-xs px-2 py-1 h-6"
-                >
-                  <Upload className="h-3 w-3 mr-1" />
-                  Upload
-                </Button>
-                <p className="text-xs text-muted-foreground mt-1">
-                  JPG, PNG or WEBP<br />Max 5MB
-                </p>
               </div>
             </div>
           </CardHeader>
