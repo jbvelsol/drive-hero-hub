@@ -495,6 +495,56 @@ const AddDriver = () => {
           </CardContent>
         </Card>
 
+        {/* Uploaded Files Display */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Uploaded Files</CardTitle>
+            <CardDescription>
+              Files that have been uploaded for this driver
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {dqfFile || profileImage ? (
+              <div className="space-y-4">
+                {dqfFile && (
+                  <div className="flex items-center justify-between p-3 border border-border rounded-lg bg-muted/50">
+                    <div className="flex-1">
+                      <div className="font-medium text-sm">
+                        {fileLabel || "DQF File"}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {dqfFile.name}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {(dqfFile.size / 1024 / 1024).toFixed(2)} MB
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {profileImage && (
+                  <div className="flex items-center justify-between p-3 border border-border rounded-lg bg-muted/50">
+                    <div className="flex-1">
+                      <div className="font-medium text-sm">
+                        Profile Image
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {profileImage.name}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {(profileImage.size / 1024 / 1024).toFixed(2)} MB
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center text-muted-foreground py-8">
+                No files uploaded yet
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
 
         {/* DQF File Upload */}
         <Card>
