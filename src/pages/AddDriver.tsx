@@ -156,9 +156,7 @@ const AddDriver = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex gap-6">
-              {/* Left side - Form fields */}
-              <div className="flex-1 space-y-4">
+            <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name *</Label>
@@ -178,6 +176,55 @@ const AddDriver = () => {
                       required
                     />
                   </div>
+                  {/* Profile Image */}
+                  <div className="flex flex-col items-center space-y-4">
+                    <Label>Profile Image</Label>
+                    {profileImagePreview ? (
+                      <div className="relative">
+                        <img
+                          src={profileImagePreview}
+                          alt="Profile preview"
+                          className="w-24 h-24 rounded-full object-cover border-2 border-border"
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute -top-2 -right-2 h-6 w-6 p-0 rounded-full"
+                          onClick={removeImage}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="w-24 h-24 rounded-full bg-muted border-2 border-dashed border-border flex items-center justify-center">
+                        <User className="h-8 w-8 text-muted-foreground" />
+                      </div>
+                    )}
+                    <div className="text-center">
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        <Upload className="h-4 w-4 mr-2" />
+                        Upload
+                      </Button>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        JPG, PNG or WEBP<br />Max 5MB
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="employeeId">Employee ID *</Label>
                     <Input
@@ -250,55 +297,6 @@ const AddDriver = () => {
                     <Label htmlFor="isActive">Active User</Label>
                   </div>
                 </div>
-              </div>
-
-              {/* Right side - Profile Image */}
-              <div className="flex flex-col items-center space-y-4">
-                <Label>Profile Image</Label>
-                {profileImagePreview ? (
-                  <div className="relative">
-                    <img
-                      src={profileImagePreview}
-                      alt="Profile preview"
-                      className="w-24 h-24 rounded-full object-cover border-2 border-border"
-                    />
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      size="sm"
-                      className="absolute -top-2 -right-2 h-6 w-6 p-0 rounded-full"
-                      onClick={removeImage}
-                    >
-                      <X className="h-3 w-3" />
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="w-24 h-24 rounded-full bg-muted border-2 border-dashed border-border flex items-center justify-center">
-                    <User className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                )}
-                <div className="text-center">
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    <Upload className="h-4 w-4 mr-2" />
-                    Upload
-                  </Button>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    JPG, PNG or WEBP<br />Max 5MB
-                  </p>
-                </div>
-              </div>
             </div>
           </CardContent>
         </Card>
