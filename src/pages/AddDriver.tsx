@@ -200,7 +200,7 @@ const AddDriver = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-4">
-                <div className={`grid grid-cols-1 gap-4 ${formData.webAccess ? 'md:grid-cols-4' : 'md:grid-cols-3'}`}>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name *</Label>
                     <Input
@@ -228,37 +228,6 @@ const AddDriver = () => {
                       required
                     />
                   </div>
-                  {formData.webAccess && (
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="availableOwners">Available Owners</Label>
-                        <Select>
-                          <SelectTrigger className="bg-background">
-                            <SelectValue placeholder="Select owners..." />
-                          </SelectTrigger>
-                          <SelectContent className="bg-background border border-border z-50">
-                            <SelectItem value="owner1">Owner 1</SelectItem>
-                            <SelectItem value="owner2">Owner 2</SelectItem>
-                            <SelectItem value="owner3">Owner 3</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="userGroup">User Group</Label>
-                        <Select>
-                          <SelectTrigger className="bg-background">
-                            <SelectValue placeholder="Select user group" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-background border border-border z-50">
-                            <SelectItem value="admin">Admin</SelectItem>
-                            <SelectItem value="manager">Manager</SelectItem>
-                            <SelectItem value="driver">Driver</SelectItem>
-                            <SelectItem value="dispatcher">Dispatcher</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                  )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -322,6 +291,57 @@ const AddDriver = () => {
                     <Label htmlFor="isActive">Active User</Label>
                   </div>
                 </div>
+                {formData.webAccess && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div className="space-y-2">
+                      <Label>Assigned Owners</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className="w-full justify-start text-left font-normal bg-background"
+                          >
+                            <span>Select owners...</span>
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-full p-3 bg-background border border-border z-50">
+                          <div className="space-y-2">
+                            <div className="flex items-center space-x-2">
+                              <Checkbox id="owner1" />
+                              <Label htmlFor="owner1" className="text-sm">Owner 1</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Checkbox id="owner2" />
+                              <Label htmlFor="owner2" className="text-sm">Owner 2</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Checkbox id="owner3" />
+                              <Label htmlFor="owner3" className="text-sm">Owner 3</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Checkbox id="owner4" />
+                              <Label htmlFor="owner4" className="text-sm">Owner 4</Label>
+                            </div>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="userGroup">User Group</Label>
+                      <Select>
+                        <SelectTrigger className="bg-background">
+                          <SelectValue placeholder="Select user group" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-background border border-border z-50">
+                          <SelectItem value="admin">Admin</SelectItem>
+                          <SelectItem value="manager">Manager</SelectItem>
+                          <SelectItem value="driver">Driver</SelectItem>
+                          <SelectItem value="dispatcher">Dispatcher</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                )}
             </div>
           </CardContent>
         </Card>
