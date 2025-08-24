@@ -60,6 +60,7 @@ const AddDriver = () => {
   const [profileImagePreview, setProfileImagePreview] = useState<string>("");
   const [fileLabel, setFileLabel] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedOwners, setSelectedOwners] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -89,6 +90,16 @@ const AddDriver = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+  };
+
+  const handleOwnerSelection = (ownerId: string, ownerName: string) => {
+    setSelectedOwners(prev => {
+      if (prev.includes(ownerName)) {
+        return prev.filter(owner => owner !== ownerName);
+      } else {
+        return [...prev, ownerName];
+      }
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -127,7 +138,7 @@ const AddDriver = () => {
       setFileLabel("");
       setDqfFile(null);
       setProfileImage(null);
-      setProfileImagePreview("");
+      setSelectedOwners([]);
     } catch (error) {
       toast({
         title: "Error",
@@ -295,36 +306,57 @@ const AddDriver = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                     <div className="space-y-2">
                       <Label>Assigned Owners</Label>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant="outline"
-                            className="w-full justify-start text-left font-normal bg-background"
-                          >
-                            <span>Select owners...</span>
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-full p-3 bg-background border border-border z-50">
-                          <div className="space-y-2">
-                            <div className="flex items-center space-x-2">
-                              <Checkbox id="owner1" />
-                              <Label htmlFor="owner1" className="text-sm">Owner 1</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <Checkbox id="owner2" />
-                              <Label htmlFor="owner2" className="text-sm">Owner 2</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <Checkbox id="owner3" />
-                              <Label htmlFor="owner3" className="text-sm">Owner 3</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <Checkbox id="owner4" />
-                              <Label htmlFor="owner4" className="text-sm">Owner 4</Label>
-                            </div>
-                          </div>
-                        </PopoverContent>
-                      </Popover>
+                       <Popover>
+                         <PopoverTrigger asChild>
+                           <Button
+                             variant="outline"
+                             className="w-full justify-start text-left font-normal bg-background"
+                           >
+                             <span>
+                               {selectedOwners.length > 0 
+                                 ? selectedOwners.join(", ") 
+                                 : "Select owners..."
+                               }
+                             </span>
+                           </Button>
+                         </PopoverTrigger>
+                         <PopoverContent className="w-full p-3 bg-background border border-border z-50">
+                           <div className="space-y-2">
+                             <div className="flex items-center space-x-2">
+                               <Checkbox 
+                                 id="owner1" 
+                                 checked={selectedOwners.includes("Owner 1")}
+                                 onCheckedChange={() => handleOwnerSelection("owner1", "Owner 1")}
+                               />
+                               <Label htmlFor="owner1" className="text-sm">Owner 1</Label>
+                             </div>
+                             <div className="flex items-center space-x-2">
+                               <Checkbox 
+                                 id="owner2" 
+                                 checked={selectedOwners.includes("Owner 2")}
+                                 onCheckedChange={() => handleOwnerSelection("owner2", "Owner 2")}
+                               />
+                               <Label htmlFor="owner2" className="text-sm">Owner 2</Label>
+                             </div>
+                             <div className="flex items-center space-x-2">
+                               <Checkbox 
+                                 id="owner3" 
+                                 checked={selectedOwners.includes("Owner 3")}
+                                 onCheckedChange={() => handleOwnerSelection("owner3", "Owner 3")}
+                               />
+                               <Label htmlFor="owner3" className="text-sm">Owner 3</Label>
+                             </div>
+                             <div className="flex items-center space-x-2">
+                               <Checkbox 
+                                 id="owner4" 
+                                 checked={selectedOwners.includes("Owner 4")}
+                                 onCheckedChange={() => handleOwnerSelection("owner4", "Owner 4")}
+                               />
+                               <Label htmlFor="owner4" className="text-sm">Owner 4</Label>
+                             </div>
+                           </div>
+                         </PopoverContent>
+                       </Popover>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="userGroup">User Group</Label>
