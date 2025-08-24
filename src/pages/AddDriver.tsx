@@ -32,6 +32,7 @@ interface DriverFormData {
   cdlClass: string;
   endorsements: string;
   medicalCardNumber: string;
+  medicalCardExpiry: string;
   notes: string;
 }
 
@@ -52,9 +53,9 @@ const AddDriver = () => {
     cdlClass: "",
     endorsements: "",
     medicalCardNumber: "",
+    medicalCardExpiry: "",
     notes: "",
   });
-  const [medicalCardExpiry, setMedicalCardExpiry] = useState<Date>();
   const [dqfFile, setDqfFile] = useState<File | null>(null);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImagePreview, setProfileImagePreview] = useState<string>("");
@@ -132,12 +133,13 @@ const AddDriver = () => {
         cdlClass: "",
         endorsements: "",
         medicalCardNumber: "",
+        medicalCardExpiry: "",
         notes: "",
       });
-      setMedicalCardExpiry(undefined);
       setFileLabel("");
       setDqfFile(null);
       setProfileImage(null);
+      setProfileImagePreview("");
       setSelectedOwners([]);
     } catch (error) {
       toast({
@@ -461,37 +463,15 @@ const AddDriver = () => {
           <CardContent className="space-y-4">
              <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                <div className="space-y-2">
-                 <Label>Medical Card Expiration Date</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !medicalCardExpiry && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {medicalCardExpiry ? (
-                        format(medicalCardExpiry, "PPP")
-                      ) : (
-                        <span>Pick expiration date</span>
-                      )}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={medicalCardExpiry}
-                      onSelect={setMedicalCardExpiry}
-                      disabled={(date) => date < new Date()}
-                      initialFocus
-                      className={cn("p-3 pointer-events-auto")}
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-            </div>
+                 <Label htmlFor="medicalCardExpiry">Medical Card Expiration Date</Label>
+                 <Input
+                   id="medicalCardExpiry"
+                   type="date"
+                   value={formData.medicalCardExpiry}
+                   onChange={(e) => handleInputChange("medicalCardExpiry", e.target.value)}
+                 />
+               </div>
+             </div>
           </CardContent>
         </Card>
 
