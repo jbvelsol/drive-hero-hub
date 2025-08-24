@@ -200,7 +200,7 @@ const AddDriver = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className={`grid grid-cols-1 gap-4 ${formData.webAccess ? 'md:grid-cols-4' : 'md:grid-cols-3'}`}>
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name *</Label>
                     <Input
@@ -228,6 +228,37 @@ const AddDriver = () => {
                       required
                     />
                   </div>
+                  {formData.webAccess && (
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="availableOwners">Available Owners</Label>
+                        <Select>
+                          <SelectTrigger className="bg-background">
+                            <SelectValue placeholder="Select owners..." />
+                          </SelectTrigger>
+                          <SelectContent className="bg-background border border-border z-50">
+                            <SelectItem value="owner1">Owner 1</SelectItem>
+                            <SelectItem value="owner2">Owner 2</SelectItem>
+                            <SelectItem value="owner3">Owner 3</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="userGroup">User Group</Label>
+                        <Select>
+                          <SelectTrigger className="bg-background">
+                            <SelectValue placeholder="Select user group" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-background border border-border z-50">
+                            <SelectItem value="admin">Admin</SelectItem>
+                            <SelectItem value="manager">Manager</SelectItem>
+                            <SelectItem value="driver">Driver</SelectItem>
+                            <SelectItem value="dispatcher">Dispatcher</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
