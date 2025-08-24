@@ -376,18 +376,9 @@ const AddDriver = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="medicalCardNumber">Medical Card Number</Label>
-                <Input
-                  id="medicalCardNumber"
-                  value={formData.medicalCardNumber}
-                  onChange={(e) => handleInputChange("medicalCardNumber", e.target.value)}
-                  placeholder="Enter medical certificate number"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Medical Card Expiration Date</Label>
+             <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+               <div className="space-y-2">
+                 <Label>Medical Card Expiration Date</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
