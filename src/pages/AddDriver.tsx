@@ -31,6 +31,8 @@ interface DriverFormData {
   licenseExpiry: string;
   cdlClass: string;
   endorsements: string;
+  hosExempt: string;
+  exemptionReason: string;
   medicalCardNumber: string;
   medicalCardExpiry: string;
   notes: string;
@@ -52,6 +54,8 @@ const AddDriver = () => {
     licenseExpiry: "",
     cdlClass: "",
     endorsements: "",
+    hosExempt: "",
+    exemptionReason: "",
     medicalCardNumber: "",
     medicalCardExpiry: "",
     notes: "",
@@ -132,6 +136,8 @@ const AddDriver = () => {
         licenseExpiry: "",
         cdlClass: "",
         endorsements: "",
+        hosExempt: "",
+        exemptionReason: "",
         medicalCardNumber: "",
         medicalCardExpiry: "",
         notes: "",
@@ -446,6 +452,29 @@ const AddDriver = () => {
                   value={formData.endorsements}
                   onChange={(e) => handleInputChange("endorsements", e.target.value)}
                   placeholder="e.g., H, N, P, S, T, X"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="hosExempt">HOS Exempt</Label>
+                <Select onValueChange={(value) => handleInputChange("hosExempt", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select option" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Yes">Yes</SelectItem>
+                    <SelectItem value="No">No</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="exemptionReason">Exemption Reason</Label>
+                <Input
+                  id="exemptionReason"
+                  value={formData.exemptionReason}
+                  onChange={(e) => handleInputChange("exemptionReason", e.target.value)}
+                  placeholder="Enter exemption reason if applicable"
                 />
               </div>
             </div>
