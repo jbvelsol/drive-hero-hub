@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload, File, X, CheckCircle } from "lucide-react";
@@ -24,6 +25,13 @@ const FileUpload = ({
   const { toast } = useToast();
 
   const selectedFile = externalSelectedFile || internalSelectedFile;
+
+  // Reset internal state when external file is cleared
+  React.useEffect(() => {
+    if (!externalSelectedFile) {
+      setInternalSelectedFile(null);
+    }
+  }, [externalSelectedFile]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
