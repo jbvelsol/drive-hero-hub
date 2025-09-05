@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { CalendarIcon, Upload, X } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,6 +38,9 @@ interface DriverFormData {
   notes: string;
 }
 const AddDriver = () => {
+  const { id } = useParams();
+  const isEditMode = !!id;
+  
   const [formData, setFormData] = useState<DriverFormData>({
     firstName: "",
     lastName: "",
@@ -162,8 +166,8 @@ const AddDriver = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
       toast({
-        title: "Driver Added Successfully",
-        description: `${formData.firstName} ${formData.lastName} has been added to the system.`
+        title: isEditMode ? "User Updated Successfully" : "Driver Added Successfully",
+        description: `${formData.firstName} ${formData.lastName} has been ${isEditMode ? "updated" : "added to the system"}.`
       });
 
       // Reset form
@@ -207,7 +211,9 @@ const AddDriver = () => {
   return <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center space-x-2 mb-6">
         <User className="h-6 w-6 text-primary" />
-        <h1 className="text-3xl font-bold text-foreground">Add New User</h1>
+        <h1 className="text-3xl font-bold text-foreground">
+          {isEditMode ? "Edit User" : "Add New User"}
+        </h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6" id="driver-form">
@@ -575,9 +581,9 @@ const AddDriver = () => {
               Cancel
             </Button>
             <Button type="submit" disabled={isSubmitting} form="driver-form">
-              {isSubmitting ? "Adding Driver..." : <>
+              {isSubmitting ? (isEditMode ? "Updating User..." : "Adding Driver...") : <>
                   <Save className="h-4 w-4 mr-2" />
-                  Add User
+                  {isEditMode ? "Update User" : "Add User"}
                 </>}
             </Button>
           </div>

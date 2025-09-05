@@ -18,6 +18,7 @@ const App = () => (
         <Layout>
           <Routes>
             <Route path="/" element={<AddDriver />} />
+            <Route path="/edit/:id" element={<AddDriver />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
