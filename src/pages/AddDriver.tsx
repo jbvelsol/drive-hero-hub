@@ -97,6 +97,11 @@ const AddDriver = () => {
     }
   };
 
+  const removeDqfFile = () => {
+    setDqfFile(null);
+    setFileLabel("");
+  };
+
   const handleOwnerSelection = (ownerId: string, ownerName: string) => {
     setSelectedOwners(prev => {
       if (prev.includes(ownerName)) {
@@ -639,6 +644,15 @@ const AddDriver = () => {
                         {(dqfFile.size / 1024 / 1024).toFixed(2)} MB
                       </div>
                     </div>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={removeDqfFile}
+                      className="ml-4"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
                   </div>
                 )}
                 {profileImage && (
@@ -654,6 +668,15 @@ const AddDriver = () => {
                         {(profileImage.size / 1024 / 1024).toFixed(2)} MB
                       </div>
                     </div>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={removeImage}
+                      className="ml-4"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
                   </div>
                 )}
               </div>
