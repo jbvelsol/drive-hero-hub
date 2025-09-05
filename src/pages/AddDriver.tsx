@@ -101,6 +101,7 @@ const AddDriver = () => {
     toast({
       title: "File Uploaded",
       description: `${selectedDqfFile.name} has been added successfully.`,
+      duration: 3000,
     });
   };
 
