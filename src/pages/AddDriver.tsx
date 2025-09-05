@@ -546,50 +546,50 @@ const AddDriver = () => {
                       <div className="flex items-center space-x-2">
                         <Checkbox 
                           id="hazmat" 
-                          checked={formData.endorsements.includes("Hazmat")}
-                          onCheckedChange={() => handleEndorsementSelection("Hazmat")}
+                          checked={formData.endorsements.includes("H - Hazmat")}
+                          onCheckedChange={() => handleEndorsementSelection("H - Hazmat")}
                         />
-                        <Label htmlFor="hazmat" className="text-sm">Hazmat</Label>
+                        <Label htmlFor="hazmat" className="text-sm">H - Hazmat</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Checkbox 
                           id="tankVehicles" 
-                          checked={formData.endorsements.includes("Tank Vehicles")}
-                          onCheckedChange={() => handleEndorsementSelection("Tank Vehicles")}
+                          checked={formData.endorsements.includes("N - Tank Vehicles")}
+                          onCheckedChange={() => handleEndorsementSelection("N - Tank Vehicles")}
                         />
-                        <Label htmlFor="tankVehicles" className="text-sm">Tank Vehicles</Label>
+                        <Label htmlFor="tankVehicles" className="text-sm">N - Tank Vehicles</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Checkbox 
                           id="passengerTransport" 
-                          checked={formData.endorsements.includes("Passenger Transport")}
-                          onCheckedChange={() => handleEndorsementSelection("Passenger Transport")}
+                          checked={formData.endorsements.includes("P - Passenger Transport")}
+                          onCheckedChange={() => handleEndorsementSelection("P - Passenger Transport")}
                         />
-                        <Label htmlFor="passengerTransport" className="text-sm">Passenger Transport</Label>
+                        <Label htmlFor="passengerTransport" className="text-sm">P - Passenger Transport</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Checkbox 
                           id="schoolBus" 
-                          checked={formData.endorsements.includes("School Bus")}
-                          onCheckedChange={() => handleEndorsementSelection("School Bus")}
+                          checked={formData.endorsements.includes("S - School Bus")}
+                          onCheckedChange={() => handleEndorsementSelection("S - School Bus")}
                         />
-                        <Label htmlFor="schoolBus" className="text-sm">School Bus</Label>
+                        <Label htmlFor="schoolBus" className="text-sm">S - School Bus</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Checkbox 
                           id="doubleTriples" 
-                          checked={formData.endorsements.includes("Double/Triples")}
-                          onCheckedChange={() => handleEndorsementSelection("Double/Triples")}
+                          checked={formData.endorsements.includes("T - Double/Triples")}
+                          onCheckedChange={() => handleEndorsementSelection("T - Double/Triples")}
                         />
-                        <Label htmlFor="doubleTriples" className="text-sm">Double/Triples</Label>
+                        <Label htmlFor="doubleTriples" className="text-sm">T - Double/Triples</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Checkbox 
                           id="tankerHazmat" 
-                          checked={formData.endorsements.includes("Tanker + Hazmat")}
-                          onCheckedChange={() => handleEndorsementSelection("Tanker + Hazmat")}
+                          checked={formData.endorsements.includes("X - Tanker + Hazmat")}
+                          onCheckedChange={() => handleEndorsementSelection("X - Tanker + Hazmat")}
                         />
-                        <Label htmlFor="tankerHazmat" className="text-sm">Tanker + Hazmat</Label>
+                        <Label htmlFor="tankerHazmat" className="text-sm">X - Tanker + Hazmat</Label>
                       </div>
                     </div>
                   </PopoverContent>
