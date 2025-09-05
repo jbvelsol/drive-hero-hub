@@ -746,7 +746,7 @@ const AddDriver = () => {
                 className="min-w-24"
               >
                 <Upload className="h-4 w-4 mr-2" />
-                Upload
+                Attach
               </Button>
             </div>
             {dqfFiles.length > 0 && (
