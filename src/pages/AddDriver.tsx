@@ -64,6 +64,7 @@ const AddDriver = () => {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImagePreview, setProfileImagePreview] = useState<string>("");
   const [fileLabel, setFileLabel] = useState<string>("");
+  const [selectedDqfFile, setSelectedDqfFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOwners, setSelectedOwners] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -74,17 +75,31 @@ const AddDriver = () => {
   };
 
   const handleFileSelect = (file: File) => {
-    if (fileLabel.trim() === "") {
+    setSelectedDqfFile(file);
+  };
+
+  const handleUploadFile = () => {
+    if (!selectedDqfFile || fileLabel.trim() === "") {
       toast({
-        title: "File Label Required",
-        description: "Please enter a label for the file before uploading.",
+        title: "Missing Information",
+        description: "Please enter a label and select a file before uploading.",
         variant: "destructive",
       });
       return;
     }
     
-    setDqfFiles(prev => [...prev, { file, label: fileLabel }]);
+    setDqfFiles(prev => [...prev, { file: selectedDqfFile, label: fileLabel }]);
     setFileLabel(""); // Clear the label for next file
+    setSelectedDqfFile(null); // Clear selected file
+    
+    toast({
+      title: "File Uploaded",
+      description: `${selectedDqfFile.name} has been added successfully.`,
+    });
+  };
+
+  const handleRemoveSelectedFile = () => {
+    setSelectedDqfFile(null);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,6 +191,7 @@ const AddDriver = () => {
       });
       setFileLabel("");
       setDqfFiles([]);
+      setSelectedDqfFile(null);
       setProfileImage(null);
       setProfileImagePreview("");
       setSelectedOwners([]);
@@ -717,10 +733,25 @@ const AddDriver = () => {
                 required
               />
             </div>
-            <FileUpload onFileSelect={handleFileSelect} />
+            <FileUpload 
+              onFileSelect={handleFileSelect} 
+              selectedFile={selectedDqfFile}
+              onFileRemove={handleRemoveSelectedFile}
+            />
+            <div className="flex justify-end">
+              <Button
+                type="button"
+                onClick={handleUploadFile}
+                disabled={!selectedDqfFile || fileLabel.trim() === ""}
+                className="min-w-24"
+              >
+                <Upload className="h-4 w-4 mr-2" />
+                Upload
+              </Button>
+            </div>
             {dqfFiles.length > 0 && (
               <div className="text-sm text-muted-foreground">
-                {dqfFiles.length} file{dqfFiles.length !== 1 ? 's' : ''} uploaded. Add more files by entering a new label and uploading.
+                {dqfFiles.length} file{dqfFiles.length !== 1 ? 's' : ''} uploaded.
               </div>
             )}
           </CardContent>

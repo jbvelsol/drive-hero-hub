@@ -8,16 +8,22 @@ interface FileUploadProps {
   onFileSelect: (file: File) => void;
   acceptedFileTypes?: string;
   maxSize?: number; // in MB
+  selectedFile?: File | null;
+  onFileRemove?: () => void;
 }
 
 const FileUpload = ({ 
   onFileSelect, 
   acceptedFileTypes = ".dqf,.pdf,.doc,.docx",
-  maxSize = 10 
+  maxSize = 10,
+  selectedFile: externalSelectedFile,
+  onFileRemove
 }: FileUploadProps) => {
   const [dragActive, setDragActive] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [internalSelectedFile, setInternalSelectedFile] = useState<File | null>(null);
   const { toast } = useToast();
+
+  const selectedFile = externalSelectedFile || internalSelectedFile;
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -50,7 +56,7 @@ const FileUpload = ({
       return;
     }
 
-    setSelectedFile(file);
+    setInternalSelectedFile(file);
     onFileSelect(file);
     toast({
       title: "File selected",
@@ -65,7 +71,10 @@ const FileUpload = ({
   };
 
   const removeFile = () => {
-    setSelectedFile(null);
+    setInternalSelectedFile(null);
+    if (onFileRemove) {
+      onFileRemove();
+    }
   };
 
   return (
