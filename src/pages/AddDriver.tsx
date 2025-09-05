@@ -60,7 +60,7 @@ const AddDriver = () => {
     medicalCardExpiry: "",
     notes: "",
   });
-  const [dqfFile, setDqfFile] = useState<File | null>(null);
+  const [dqfFiles, setDqfFiles] = useState<Array<{file: File, label: string}>>([]);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImagePreview, setProfileImagePreview] = useState<string>("");
   const [fileLabel, setFileLabel] = useState<string>("");
@@ -74,7 +74,17 @@ const AddDriver = () => {
   };
 
   const handleFileSelect = (file: File) => {
-    setDqfFile(file);
+    if (fileLabel.trim() === "") {
+      toast({
+        title: "File Label Required",
+        description: "Please enter a label for the file before uploading.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setDqfFiles(prev => [...prev, { file, label: fileLabel }]);
+    setFileLabel(""); // Clear the label for next file
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,9 +107,8 @@ const AddDriver = () => {
     }
   };
 
-  const removeDqfFile = () => {
-    setDqfFile(null);
-    setFileLabel("");
+  const removeDqfFile = (index: number) => {
+    setDqfFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleOwnerSelection = (ownerId: string, ownerName: string) => {
@@ -166,7 +175,7 @@ const AddDriver = () => {
         notes: "",
       });
       setFileLabel("");
-      setDqfFile(null);
+      setDqfFiles([]);
       setProfileImage(null);
       setProfileImagePreview("");
       setSelectedOwners([]);
@@ -629,32 +638,32 @@ const AddDriver = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {dqfFile || profileImage ? (
+            {dqfFiles.length > 0 || profileImage ? (
               <div className="space-y-4">
-                {dqfFile && (
-                  <div className="flex items-center justify-between p-3 border border-border rounded-lg bg-muted/50">
+                {dqfFiles.map((dqfFile, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 border border-border rounded-lg bg-muted/50">
                     <div className="flex-1">
                       <div className="font-medium text-sm">
-                        {fileLabel || "DQF File"}
+                        {dqfFile.label}
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        {dqfFile.name}
+                        {dqfFile.file.name}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        {(dqfFile.size / 1024 / 1024).toFixed(2)} MB
+                        {(dqfFile.file.size / 1024 / 1024).toFixed(2)} MB
                       </div>
                     </div>
                     <Button
                       type="button"
                       variant="destructive"
                       size="sm"
-                      onClick={removeDqfFile}
+                      onClick={() => removeDqfFile(index)}
                       className="ml-4"
                     >
                       <X className="h-4 w-4" />
                     </Button>
                   </div>
-                )}
+                ))}
                 {profileImage && (
                   <div className="flex items-center justify-between p-3 border border-border rounded-lg bg-muted/50">
                     <div className="flex-1">
@@ -699,15 +708,21 @@ const AddDriver = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="fileLabel">File Label</Label>
+              <Label htmlFor="fileLabel">File Label *</Label>
               <Input
                 id="fileLabel"
                 value={fileLabel}
                 onChange={(e) => setFileLabel(e.target.value)}
                 placeholder="Enter a name/label for this file..."
+                required
               />
             </div>
             <FileUpload onFileSelect={handleFileSelect} />
+            {dqfFiles.length > 0 && (
+              <div className="text-sm text-muted-foreground">
+                {dqfFiles.length} file{dqfFiles.length !== 1 ? 's' : ''} uploaded. Add more files by entering a new label and uploading.
+              </div>
+            )}
           </CardContent>
         </Card>
 
