@@ -29,8 +29,8 @@ interface DriverFormData {
   licenseNumber: string;
   licenseState: string;
   licenseExpiry: string;
-  cdlClass: string;
-  endorsements: string;
+  cdlClass: string[];
+  endorsements: string[];
   hosExempt: string;
   exemptionReason: string;
   medicalCardNumber: string;
@@ -52,8 +52,8 @@ const AddDriver = () => {
     licenseNumber: "",
     licenseState: "",
     licenseExpiry: "",
-    cdlClass: "",
-    endorsements: "",
+    cdlClass: [],
+    endorsements: [],
     hosExempt: "",
     exemptionReason: "",
     medicalCardNumber: "",
@@ -107,6 +107,24 @@ const AddDriver = () => {
     });
   };
 
+  const handleCdlClassSelection = (cdlClass: string) => {
+    setFormData(prev => ({
+      ...prev,
+      cdlClass: prev.cdlClass.includes(cdlClass)
+        ? prev.cdlClass.filter(cls => cls !== cdlClass)
+        : [...prev.cdlClass, cdlClass]
+    }));
+  };
+
+  const handleEndorsementSelection = (endorsement: string) => {
+    setFormData(prev => ({
+      ...prev,
+      endorsements: prev.endorsements.includes(endorsement)
+        ? prev.endorsements.filter(end => end !== endorsement)
+        : [...prev.endorsements, endorsement]
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -134,8 +152,8 @@ const AddDriver = () => {
         licenseNumber: "",
         licenseState: "",
         licenseExpiry: "",
-        cdlClass: "",
-        endorsements: "",
+        cdlClass: [],
+        endorsements: [],
         hosExempt: "",
         exemptionReason: "",
         medicalCardNumber: "",
@@ -260,13 +278,12 @@ const AddDriver = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number *</Label>
+                    <Label htmlFor="phone">Phone Number</Label>
                     <Input
                       id="phone"
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => handleInputChange("phone", e.target.value)}
-                      required
                     />
                   </div>
                 </div>
@@ -434,25 +451,119 @@ const AddDriver = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="cdlClass">CDL Class</Label>
-                <Select onValueChange={(value) => handleInputChange("cdlClass", value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select CDL Class" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="A">Class A</SelectItem>
-                    <SelectItem value="B">Class B</SelectItem>
-                    <SelectItem value="C">Class C</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start text-left font-normal bg-background"
+                    >
+                      <span>
+                        {formData.cdlClass.length > 0 
+                          ? formData.cdlClass.map(cls => `Class ${cls}`).join(", ") 
+                          : "Select CDL Class..."
+                        }
+                      </span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-full p-3 bg-background border border-border z-50">
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="classA" 
+                          checked={formData.cdlClass.includes("A")}
+                          onCheckedChange={() => handleCdlClassSelection("A")}
+                        />
+                        <Label htmlFor="classA" className="text-sm">Class A</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="classB" 
+                          checked={formData.cdlClass.includes("B")}
+                          onCheckedChange={() => handleCdlClassSelection("B")}
+                        />
+                        <Label htmlFor="classB" className="text-sm">Class B</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="classC" 
+                          checked={formData.cdlClass.includes("C")}
+                          onCheckedChange={() => handleCdlClassSelection("C")}
+                        />
+                        <Label htmlFor="classC" className="text-sm">Class C</Label>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="endorsements">Endorsements</Label>
-                <Input
-                  id="endorsements"
-                  value={formData.endorsements}
-                  onChange={(e) => handleInputChange("endorsements", e.target.value)}
-                  placeholder="e.g., H, N, P, S, T, X"
-                />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start text-left font-normal bg-background"
+                    >
+                      <span>
+                        {formData.endorsements.length > 0 
+                          ? formData.endorsements.join(", ") 
+                          : "Select endorsements..."
+                        }
+                      </span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-full p-3 bg-background border border-border z-50">
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="hazmat" 
+                          checked={formData.endorsements.includes("Hazmat")}
+                          onCheckedChange={() => handleEndorsementSelection("Hazmat")}
+                        />
+                        <Label htmlFor="hazmat" className="text-sm">Hazmat</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="tankVehicles" 
+                          checked={formData.endorsements.includes("Tank Vehicles")}
+                          onCheckedChange={() => handleEndorsementSelection("Tank Vehicles")}
+                        />
+                        <Label htmlFor="tankVehicles" className="text-sm">Tank Vehicles</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="passengerTransport" 
+                          checked={formData.endorsements.includes("Passenger Transport")}
+                          onCheckedChange={() => handleEndorsementSelection("Passenger Transport")}
+                        />
+                        <Label htmlFor="passengerTransport" className="text-sm">Passenger Transport</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="schoolBus" 
+                          checked={formData.endorsements.includes("School Bus")}
+                          onCheckedChange={() => handleEndorsementSelection("School Bus")}
+                        />
+                        <Label htmlFor="schoolBus" className="text-sm">School Bus</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="doubleTriples" 
+                          checked={formData.endorsements.includes("Double/Triples")}
+                          onCheckedChange={() => handleEndorsementSelection("Double/Triples")}
+                        />
+                        <Label htmlFor="doubleTriples" className="text-sm">Double/Triples</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="tankerHazmat" 
+                          checked={formData.endorsements.includes("Tanker + Hazmat")}
+                          onCheckedChange={() => handleEndorsementSelection("Tanker + Hazmat")}
+                        />
+                        <Label htmlFor="tankerHazmat" className="text-sm">Tanker + Hazmat</Label>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
