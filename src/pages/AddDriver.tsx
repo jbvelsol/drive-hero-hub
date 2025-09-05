@@ -220,7 +220,7 @@ const AddDriver = () => {
         <h1 className="text-3xl font-bold text-foreground">Add New Driver</h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6" id="driver-form">
         {/* Personal Information */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
@@ -785,22 +785,30 @@ const AddDriver = () => {
 
         <Separator />
 
-        <div className="flex justify-end space-x-4">
-          <Button type="button" variant="outline">
-            Cancel
-          </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? (
-              "Adding Driver..."
-            ) : (
-              <>
-                <Save className="h-4 w-4 mr-2" />
-                Add User
-              </>
-            )}
-          </Button>
-        </div>
+        {/* Add bottom padding to prevent content from being hidden behind floating buttons */}
+        <div className="pb-20"></div>
       </form>
+
+      {/* Floating action buttons */}
+      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t shadow-lg">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex justify-end space-x-4">
+            <Button type="button" variant="outline">
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isSubmitting} form="driver-form">
+              {isSubmitting ? (
+                "Adding Driver..."
+              ) : (
+                <>
+                  <Save className="h-4 w-4 mr-2" />
+                  Add User
+                </>
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
