@@ -76,6 +76,12 @@ const AddDriver = () => {
 
   const handleFileSelect = (file: File) => {
     setSelectedDqfFile(file);
+    // Auto-populate file label with filename if label is empty
+    if (fileLabel.trim() === "") {
+      // Remove file extension for cleaner label
+      const nameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
+      setFileLabel(nameWithoutExtension);
+    }
   };
 
   const handleUploadFile = () => {
