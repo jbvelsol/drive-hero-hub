@@ -294,12 +294,11 @@ const AddDriver = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="employeeId">Employee ID *</Label>
+                    <Label htmlFor="employeeId">Employee ID</Label>
                     <Input
                       id="employeeId"
                       value={formData.employeeId}
                       onChange={(e) => handleInputChange("employeeId", e.target.value)}
-                      required
                     />
                   </div>
                 </div>
